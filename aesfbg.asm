@@ -1,31 +1,30 @@
 j main
 
 ygadai:
-lw $t0, 0x0 ($sp)
-lw $t1, 0x4 ($sp)
+lw $t0, 0x0 ($sp) #загрузка значения из стека
+lw $t1, 0x4 ($sp) #загрузка значения из стека
 addu $t2, $t0, $t1
 beq $t2, $s2, on_equal
-addi $s3, $0, 1
+addi $s3, $0, 1 #проиграл
 j finish
 
 on_equal:
-addi $s3, $0, 100
+addi $s3, $0, 100 #выиграл
 
 finish:
-jr $ra
+jr $ra #возврат из функции
 
 main:
-addi $sp, $0, 0x200
-addi $s2, $0, 68
-lw $s0, 0x0 ($0)
-lw $s1, 0x4 ($0)
-addi $sp, $sp, -8
+addi $sp, $0, 0x200 #выделение памяти для стека на 512 байт
+addi $s2, $0, 68 #число для угадывания
+lw $s0, 0x0 ($0) #первое число
+lw $s1, 0x4 ($0) #второе число
+addi $sp, $sp, -8 #смещение указателя стека на 8 байт вниз
 sw $s0, 0x0 ($sp)
 sw $s1, 0x4 ($sp)
-jal ygadai
-addi $sp, $sp, 8
-sw $s3, 0x8 ($sp)
-
+jal ygadai #вызов функции
+addi $sp, $sp, 8 #смещение указателя стека на 8 байт вверх
+sw $s3, 0x8 ($sp) #кол-во очков
 
 
 
